@@ -11,6 +11,11 @@ library(tidyverse)
 library(ggplot2)
 ```
 
+# Introduction
+
+We will briefly attempt to get key marketable metrics from this the facebook data to aid the marketing department develop data driven strategies going forward.
+
+
 ## Data Loading, Viewing, and Structure Understanding
 
 ```{r}
@@ -20,6 +25,8 @@ head(fb_data, 3)
 ```
 
 ## Data Cleaning
+
+We would check the data for consistency and credibility
 
 ```{r}
 # Clean column names
@@ -44,7 +51,7 @@ data.frame(
 ```
 
 ## Key Engagement Insights
-
+How is this pages activity metric? is it marketable?
 ```{r}
 engagement_summary <- fb_data %>% 
   summarise(
@@ -56,7 +63,7 @@ engagement_summary
 ```
 
 ## Top Performing Posts
-
+What are the toptop performing post on the page?
 ```{r}
 top_posts <- fb_data %>% 
   arrange(desc(like)) %>% 
@@ -66,6 +73,7 @@ top_posts
 ```
 
 ## Engagement by Post Type
+What does the engagemnts on our posts look like?
 
 ```{r}
 fb_data %>%
@@ -79,6 +87,7 @@ fb_data %>%
 ```
 
 ## Best Posting Time for Engagement
+Could there be a significantly better time to make a post?
 
 ```{r}
 fb_data %>%
@@ -93,6 +102,7 @@ fb_data %>%
 
 ## Paid vs. Organic Performance
 
+lets consider that cisuals on paid posts and organic posts is there something to uncover
 ```{r}
 fb_data %>%
   group_by(Paid) %>%
@@ -108,6 +118,10 @@ fb_data %>%
 
 ## Conclusion
 
-This report highlights key insights into Facebook post performance, including **top-performing posts**, **engagement trends**, and comparisons between **paid vs. organic** strategies. It highlights that the best posts that had most engagements were videos and paid post always always outperformed organic post in interaction and engagements. Video contents should be encouraged and links can be included in them as when posted have signiicantly low interactions.
+This report highlights key insights into Facebook post performance, including **top-performing posts**, **engagement trends**, and comparisons between **paid vs. organic** strategies. It highlights that the best posts that had most engagements were videos and paid post always always outperformed organic post in interaction and engagements. Video contents should be encouraged and links can be included in them as when posted alone have significantly low interactions. and finally the magic time of the 5th hour should be exploited.
+
+## Recommendations
+
+More analytics can be don to know who exactly to target to get optimal interactuion and engagements and the days and months included could have deeper meaning is critically accessed.
 
 ---

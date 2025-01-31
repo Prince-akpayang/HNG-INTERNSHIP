@@ -7,7 +7,7 @@ output: html_document
 ## Loading Libraries
 This are the packages we consider relevant to this report, since its meant to be very brief and simple and not much manipulation to be carried out.
 
-```{r setup, include=FALSE}
+```{r setup, echo=TRUE, results='hide'}
 library(tidyverse)
 library(ggplot2)
 ```
@@ -29,7 +29,7 @@ The dataset contains Facebook post-performance metrics, including details on pos
 
 At this stage, we are focusing on **likes, comments, shares, total interactions, post type, posting time, and paid vs. organic performance**.
 
-```{r,include=FALSE}
+```{r, echo=TRUE, results='hide'}
 fb_data <- read.csv2("~/github upload/HNG INTERNSHIP/dataset_Facebook.csv")
 glimpse(fb_data)
 head(fb_data, 10)
@@ -39,7 +39,7 @@ head(fb_data, 10)
 
 Data cleaning involved renaming columns for consistency and converting categorical variables like **post type**, **weekday**, and **paid status** into factors for easier analysis. Missing values were checked and removed to ensure accurate insights.
 
-```{r, include=FALSE}
+```{r, echo=TRUE, results='hide'}
 # Clean column names
 colnames(fb_data) <- gsub("\\.", "_", colnames(fb_data))
 
@@ -147,4 +147,3 @@ For more details, you can explore the following links:
 - **HNG Internship**: [Internship Overview](https://hng.tech/internship)  
 - **Hire Data Analysts**: [HNG Talent Hub](https://hng.tech/hire/data-analysts)  
 
----

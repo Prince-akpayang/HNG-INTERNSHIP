@@ -132,10 +132,19 @@ fb_data %>%
   labs(title = "Paid vs. Organic Post Performance", x = "Paid Status", y = "Metric Value")
 ```
 
-## Conclusion  
+## Observation and Conclusion  
 This report provides key insights into Facebook post performance, focusing on **top-performing posts, engagement trends, and paid vs. organic comparisons**. Videos consistently received the highest engagement though mostly as impression as photos had the most **likes** and **comments** in the **top performuing posts**, and paid posts outperformed organic ones. To improve interactions, video content should be prioritized, and links can be embedded instead of posted separately. Lastly, the **5th hour** emerged as the best time for engagement and should be leveraged.  
 
 ## Recommendations  
 Further analysis can identify **specific audience segments** for better targeting and **optimal posting days and months** for engagement. A deeper look into seasonal trends could reveal additional insights.
+
+---
+## Additional Resources
+
+For more details, you can explore the following links:
+
+- **GitHub Repository**: [HNG Internship Files](https://github.com/Prince-akpayang/HNG-INTERNSHIP)  
+- **HNG Internship**: [Internship Overview](https://hng.tech/internship)  
+- **Hire Data Analysts**: [HNG Talent Hub](https://hng.tech/hire/data-analysts)  
 
 ---

@@ -1,0 +1,141 @@
+---
+title: "Marketing Insight Report - Facebook Metrics"
+author: "Etini Akpayang"
+date: "2025-01-30"
+output: html_document
+---
+## Loading Libraries
+This are the packages we consider relevant to this report, since its meant to be very brief and simple and not much manipulation to be carried out.
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Introduction
+**Task: Facebook Metrics Analysis**  
+
+This task involves analyzing Facebook post engagement data to identify trends and insights. Key steps include data cleaning, exploratory data analysis, and visualization of engagement metrics like likes, comments, and shares. The goal is to determine the best posting times, post types, and the impact of paid versus organic reach.
+
+We will briefly attempt to get key marketable metrics from this the facebook data to aid the marketing department develop data driven strategies going forward.
+
+# The Dataset
+
+
+## Data Loading, Viewing, and Structure Understanding
+This chunck loads the data file from the source.
+
+The dataset contains Facebook post-performance metrics, including details on post type, posting time, and engagement levels. It includes variables like likes, comments, shares, and total interactions, along with paid and organic reach. The data allows for analyzing engagement trends across different post attributes.  
+
+At this stage, we are focusing on **likes, comments, shares, total interactions, post type, posting time, and paid vs. organic performance**.
+
+```{r,include=FALSE}
+fb_data <- read.csv2("~/github upload/HNG INTERNSHIP/dataset_Facebook.csv")
+glimpse(fb_data)
+head(fb_data, 10)
+```
+
+## Data Cleaning
+
+Data cleaning involved renaming columns for consistency and converting categorical variables like **post type**, **weekday**, and **paid status** into factors for easier analysis. Missing values were checked and removed to ensure accurate insights.
+
+```{r, include=FALSE}
+# Clean column names
+colnames(fb_data) <- gsub("\\.", "_", colnames(fb_data))
+
+# Convert categorical variables
+fb_data <- fb_data %>%
+  mutate(
+    Paid = factor(Paid, levels = c(0, 1), labels = c("Organic", "Paid")),
+    Post_Month = factor(Post_Month, levels = 1:12, labels = month.abb),
+    Post_Weekday = factor(Post_Weekday, levels = 1:7, labels = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"))
+  ) %>% 
+  drop_na()
+
+glimpse(fb_data)
+
+# Missing data check
+data.frame(
+  Variable = colnames(fb_data),
+  Missing_Values = colSums(is.na(fb_data))
+)
+```
+
+## Key Engagement Insights
+
+We analyzed key engagement metrics, including **likes, comments, and shares,** to understand overall audience interaction. Averages were computed to provide a baseline for post performance.
+
+```{r}
+engagement_summary <- fb_data %>% 
+  summarise(
+    avg_like = mean(like, na.rm = TRUE),
+    avg_comments = mean(comment, na.rm = TRUE),
+    avg_shares = mean(share, na.rm = TRUE)
+  )
+engagement_summary
+```
+
+## Top Performing Posts
+
+The highest-performing posts were identified based on **like counts**, with additional insights from **comments**, **shares**, and **posting time**. These posts reveal content types and timing that drive the most engagement.
+
+```{r}
+top_posts <- fb_data %>% 
+  arrange(desc(like)) %>% 
+  select(Type, like, comment, share, Post_Hour, Post_Month, Post_Weekday) %>% 
+  head(10)
+top_posts
+```
+
+## Engagement by Post Type
+Posts were grouped by **type** (e.g., photo, video, status) to compare average interactions. This helps determine which content format resonates most with the audience.
+
+```{r}
+fb_data %>%
+  group_by(Type) %>%
+  summarise(Avg_Interactions = mean(Total_Interactions, na.rm = TRUE)) %>%
+  ggplot(aes(x = reorder(Type, Avg_Interactions), y = Avg_Interactions, fill = Type)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Engagement by Post Type", x = "Post Type", y = "Average Interactions") +
+  theme_minimal()
+```
+
+## Best Posting Time for Engagement
+Engagement levels were analyzed across different **posting hours** to identify peak activity periods. This insight helps optimize posting schedules for maximum reach.
+
+```{r}
+fb_data %>%
+  group_by(Post_Hour) %>%
+  summarise(Avg_Interactions = mean(Total_Interactions, na.rm = TRUE)) %>%
+  ggplot(aes(x = Post_Hour, y = Avg_Interactions)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(color = "red") +
+  labs(title = "Engagement by Posting Hour", x = "Hour", y = "Average Interactions") +
+  theme_minimal()
+```
+
+## Paid vs. Organic Performance
+
+Posts were categorized into **paid and organic** to compare their reach and interactions. This analysis highlights the impact of paid promotions on engagement levels.
+
+```{r}
+fb_data %>%
+  group_by(Paid) %>%
+  summarise(Avg_Reach = mean(Lifetime_Post_Total_Reach, na.rm = TRUE),
+            Avg_Interactions = mean(Total_Interactions, na.rm = TRUE)) %>%
+  pivot_longer(cols = c(Avg_Reach, Avg_Interactions), names_to = "Metric", values_to = "Value") %>%
+  ggplot(aes(x = Paid, y = Value, fill = Paid)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ Metric, scales = "free") +
+  theme_minimal() +
+  labs(title = "Paid vs. Organic Post Performance", x = "Paid Status", y = "Metric Value")
+```
+
+## Conclusion  
+This report provides key insights into Facebook post performance, focusing on **top-performing posts, engagement trends, and paid vs. organic comparisons**. Videos consistently received the highest engagement though mostly as impression as photos had the most **likes** and **comments** in the **top performuing posts**, and paid posts outperformed organic ones. To improve interactions, video content should be prioritized, and links can be embedded instead of posted separately. Lastly, the **5th hour** emerged as the best time for engagement and should be leveraged.  
+
+## Recommendations  
+Further analysis can identify **specific audience segments** for better targeting and **optimal posting days and months** for engagement. A deeper look into seasonal trends could reveal additional insights.
+
+---

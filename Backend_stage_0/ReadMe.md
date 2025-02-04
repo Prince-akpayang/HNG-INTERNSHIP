@@ -1,8 +1,8 @@
 1.    # HNG Stage Zero Task
 
        This is a simple API that returns my email, the current datetime, and the GitHub URL of this project.
-
-2.    ## Setup
+  
+3.    ## Setup
        1. Clone the repository:
           ```bash
           git clone https://github.com/Prince-akpayang/HNG-INTERNSHIP.git.
@@ -17,7 +17,7 @@
           ```
        ```
 
-3. **API documentation, include:**
+4. **API documentation, include:**
    - **Endpoint URL**.
    - **Request/response format**.
    - **Example usage**.
